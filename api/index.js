@@ -12,7 +12,9 @@ const PORT = 5000;
 // Middleware
 app.use(bodyParser.json());
 app.use(cors({
-  origin: "http://localhost:3000"
+  origin: "http://localhost:3000",
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 // MongoDB Connection
@@ -58,6 +60,5 @@ app.delete("/api/items/:id", async (req, res) => {
 
 // Start Server
 app.listen(PORT, (req, res) => {
-  res.send("The Server is working")
   console.log(`Server running on http://localhost:${PORT}`);
 });
