@@ -34,6 +34,11 @@ const ItemSchema = new mongoose.Schema({
 
 const Item = mongoose.model("Item", ItemSchema);
 
+app.get("/", async (req, res) => {
+  const items = await Item.find();
+  res.json(items)
+})
+
 // Routes
 app.get("/api/items", async (req, res) => {
   const items = await Item.find();
