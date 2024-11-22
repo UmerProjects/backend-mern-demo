@@ -10,12 +10,14 @@ const app = express();
 const PORT = 5000;
 
 // Middleware
-app.use(bodyParser.json());
-app.use(cors({
-  origin: "http://localhost:3000",
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+app.use(express.json());
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 // MongoDB Connection
 mongoose
@@ -35,9 +37,13 @@ const ItemSchema = new mongoose.Schema({
 const Item = mongoose.model("Item", ItemSchema);
 
 app.get("/", async (req, res) => {
-  const items = await Item.find();
-  res.json(items)
-})
+  try {
+    const items = await Item.find();
+    res.json(items);
+  } catch (error) {
+    res.status(500).json({error: "Fetching items"})
+  }
+});
 
 // Routes
 app.get("/api/items", async (req, res) => {
